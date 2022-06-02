@@ -31,7 +31,7 @@
         <!--有登入狀態才顯示logout-->
         <% if (isLogin) { %>
         <form class="d-flex" action="/logout" method="POST">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
             <button class="btn btn-outline-success" type="submit">Logout</button>
         </form>
         <% } %>

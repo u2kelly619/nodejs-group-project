@@ -5,7 +5,7 @@ const bcryptjs = require('bcryptjs');
 
 //變成一個function
 const getLogin = (req, res) => {
-    const errorMessage = req.flash('errorMessage')[0];
+    // const errorMessage = req.flash('errorMessage')[0];
     // res.status(200).sendFile(path.join(__dirname, 'views', 'login.html')); //把node資料夾>views>login.html的檔案拿來顯示
     res.status(200).render('auth/login',{ //render會去views資料夾抓
         pageTitle: 'Login',
@@ -15,7 +15,7 @@ const getLogin = (req, res) => {
 }
 
 const getSignup = (req, res) => {
-    const errorMessage = req.flash('errorMessage')[0];
+    // const errorMessage = req.flash('errorMessage')[0];
     res.status(200)
         .render('auth/signup', {
             pageTitle: 'Signup',
@@ -31,8 +31,8 @@ const postLogin = (req, res) => {
             console.log('user', user);
             //如果使用者不存在，顯示錯誤訊息
 			if (!user) {
-                req.flash('errorMessage', '錯誤的 Email 或 Password。');
-                // console.log('login: 找不到此 user 或密碼錯誤');
+                // req.flash('errorMessage', '錯誤的 Email 或 Password。');
+                console.log('login: 找不到此 user 或密碼錯誤');
                 // return res.redirect('/login'); //導頁在vue導
             }
 			//比對密碼
@@ -69,7 +69,7 @@ const postSignup = (req, res) => {
     User.findOne({ where: { email } }) //email: email
         .then((user) => {
             if (user) {
-                req.flash('errorMessage', '此帳號已存在！請使用其他 Email。')
+                // req.flash('errorMessage', '此帳號已存在！請使用其他 Email。')
                 return res.redirect('/signup');
             } else {
                 return bcryptjs.hash(password, 12) //加密10的12次方次

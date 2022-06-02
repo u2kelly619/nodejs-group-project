@@ -15,11 +15,19 @@ const Product = database.define('product', {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    category: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     price: {
       type: Sequelize.DOUBLE,
       allowNull: false,
     },
-    imageUrl: {
+    imageUrlOne: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    imageUrlTwo: {
       type: Sequelize.STRING,
       allowNull: false,
     },
