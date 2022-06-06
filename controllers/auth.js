@@ -7,20 +7,21 @@ const bcryptjs = require('bcryptjs');
 const getLogin = (req, res) => {
     // const errorMessage = req.flash('errorMessage')[0];
     // res.status(200).sendFile(path.join(__dirname, 'views', 'login.html')); //把node資料夾>views>login.html的檔案拿來顯示
-    res.status(200).render('auth/login',{ //render會去views資料夾抓
-        pageTitle: 'Login',
-        // path: '/login' //全域已有定義(app.js內處理login狀態時有設定 res.locals.path = req.url)，但這邊再寫一次的話權重更高，會覆寫
-        errorMessage //render時將errorMessage傳進login視圖
-    });
+    res.status(200)
+        // .render('auth/login',{ //render會去views資料夾抓
+        // pageTitle: 'Login',
+        // // path: '/login' //全域已有定義(app.js內處理login狀態時有設定 res.locals.path = req.url)，但這邊再寫一次的話權重更高，會覆寫
+        // errorMessage //render時將errorMessage傳進login視圖
+        // });
 }
 
 const getSignup = (req, res) => {
     // const errorMessage = req.flash('errorMessage')[0];
     res.status(200)
-        .render('auth/signup', {
-            pageTitle: 'Signup',
-            errorMessage
-        });
+        // .render('auth/signup', {
+        //     pageTitle: 'Signup',
+        //     errorMessage
+        // });
 }
 
 const postLogin = (req, res) => {
