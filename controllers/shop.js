@@ -20,16 +20,35 @@ const getIndex = (req, res) => {
     Product.findAll()
         .then((products) => {
             res.status(200)
-                // .render('index', {
-                //     path: '/',
-                //     pageTitle: 'Book Your Books online',
-                //     products
-                // });
+            return res.json({message: '連接成功', data: products})
         })
         .catch((err) => {
             console.log('Product.findAll() error: ', err);
         })
 };
+
+//cookie分類產品
+const getProductsCookie = (req, res) => {
+    Product.findAll({where: {
+        category: '手工餅乾'
+      }})
+        .then((products) => {
+            res.status(200)
+            return res.json({message: '連接成功', data: products})
+        })
+        .catch((err) => {
+            console.log('Product.findAll() error: ', err);
+        })
+};
+
+
+
+
+
+
+
+
+
 
 const getCart = (req, res) => {
     req.user
@@ -139,6 +158,7 @@ const postCartDeleteItem = (req, res, next) => {
 module.exports = {
     getIndex,
     // getProduct,
+    getProductsCookie,
     getCart,
     postCartAddItem,
     postCartDeleteItem
