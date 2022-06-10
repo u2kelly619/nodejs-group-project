@@ -13,8 +13,6 @@ const isLogin = require('../authGuard/isLogin');
 //預設發起請求後會自動結束，所以不需要next參數
 //處理路由/的get請求
 router.get('/products', shopController.getIndex);
-router.get('/productsCookie', shopController.getProductsCookie);
-
 
 //登入狀態下才會執行這些controllers
 router.get('/cart', isLogin, shopController.getCart);

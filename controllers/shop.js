@@ -27,29 +27,6 @@ const getIndex = (req, res) => {
         })
 };
 
-//cookie分類產品
-const getProductsCookie = (req, res) => {
-    Product.findAll({where: {
-        category: '手工餅乾'
-      }})
-        .then((products) => {
-            res.status(200)
-            return res.json({message: '連接成功', data: products})
-        })
-        .catch((err) => {
-            console.log('Product.findAll() error: ', err);
-        })
-};
-
-
-
-
-
-
-
-
-
-
 const getCart = (req, res) => {
     req.user
         .getCart() //取得DB物件
