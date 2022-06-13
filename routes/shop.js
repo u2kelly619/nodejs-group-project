@@ -14,8 +14,6 @@ const isLogin = require('../authGuard/isLogin');
 //處理路由/的get請求
 router.get('/products', shopController.getIndex);
 
-
-
 //登入狀態下才會執行這些controllers
 router.get('/cart', isLogin, shopController.getCart);
 router.post('/cart-add-item', isLogin, shopController.postCartAddItem);
