@@ -81,8 +81,8 @@ const CartItem = require('./models/cart-item');
 //------middleware (由上而下執行)------
 
 //設定ejs
-app.set('view engine', 'ejs'); //使用ejs的view engine樣板引擎
-app.set('views', 'views'); // views的預設路徑就是views資料夾，如果沒有變動，可以省略此設定
+// app.set('view engine', 'ejs'); //使用ejs的view engine樣板引擎
+// app.set('views', 'views'); // views的預設路徑就是views資料夾，如果沒有變動，可以省略此設定
 
 //告知靜態資源存放路徑
 app.use(express.static(path.join(__dirname, 'public')));
@@ -99,6 +99,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //使用bodyParser解析post回來的資料(request body)
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 //使用connect-flash模組
 // app.use(connectFlash());
 
