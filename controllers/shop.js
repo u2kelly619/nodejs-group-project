@@ -1,6 +1,5 @@
 //引入product model
 const Product = require('../models/product');
-
 // const getIndex = (req, res) => {
 //     // res.writeHead(200, { 'Content-Type': 'text/html' });
 //     // res.write('<head><meta charset="utf-8" /></head>')
@@ -15,12 +14,11 @@ const Product = require('../models/product');
 //         path: '/' 
 //     });
 // }
-
 const getIndex = (req, res) => {
     Product.findAll()
         .then((products) => {
             res.status(200)
-            return res.json({message: '連接成功', data: products})
+            return res.json({ message: '連接成功', data: products })
         })
         .catch((err) => {
             console.log('Product.findAll() error: ', err);
@@ -32,13 +30,13 @@ const getCart = (req, res) => {
         .getCart() //取得DB物件
         .then((cart) => {
             return cart.getProducts()
-                .then((products) => {
-                    // res.render('shop/cart', {
-                    //     pageTitle: 'Cart',
-                    //     products,
-                    //     amount: cart.amount
-                    // });
-                })
+                // .then((products) => {
+                //     // res.render('shop/cart', {
+                //     //     pageTitle: 'Cart',
+                //     //     products,
+                //     //     amount: cart.amount
+                //     // });
+                // })
                 .catch((err) => {
                     console.log('getCart - cart.getProducts error: ', err);
                 })
@@ -47,7 +45,6 @@ const getCart = (req, res) => {
             console.log('getCart - user.getCart error', err);
         })
 }
-
 const postCartAddItem = (req, res) => {
     //post過來的資料(productId)為req.body(用bodyParser解讀)
     const { productId } = req.body;
@@ -58,7 +55,7 @@ const postCartAddItem = (req, res) => {
         .then((cart) => {
             userCart = cart;
             //檢查product是否已在cart(productId是從hidden的input裡傳過來的，把它當作篩選條件)
-            return cart.getProducts({ where: { id: productId }}); //sequelize自動產生的方法，因關聯是多對多，會在product加上s
+            return cart.getProducts({ where: { id: productId } }); //sequelize自動產生的方法，因關聯是多對多，會在product加上s
         }) //取得陣列
         .then((products) => {
             let product;
@@ -95,7 +92,6 @@ const postCartAddItem = (req, res) => {
             console.log('postCartAddItem error: ', err);
         })
 };
-
 const postCartDeleteItem = (req, res, next) => {
     const { productId } = req.body; //指定id不然不知道要刪除哪一筆
     let userCart;
@@ -103,15 +99,15 @@ const postCartDeleteItem = (req, res, next) => {
         .getCart()
         .then((cart) => {
             userCart = cart;
-            return cart.getProducts({ where: { id: productId }});
-			//同個cart的同個product會記錄在同個productId，要刪除該product就要用productId來篩選
+            return cart.getProducts({ where: { id: productId } });
+            //同個cart的同個product會記錄在同個productId，要刪除該product就要用productId來篩選
         })
         .then((products) => {
             const product = products[0];
             return product.cartItem.destroy(); //毀滅該筆cartItem
-			//cartItem串起product跟cart表格
+            //cartItem串起product跟cart表格
         })
-		//重新計算總額
+        //重新計算總額
         .then(() => {
             return userCart
                 .getProducts()
@@ -129,13 +125,11 @@ const postCartDeleteItem = (req, res, next) => {
         })
         .catch((err) => console.log(err));
 };
-
-
 //建議用物件寫法
 module.exports = {
     getIndex,
     // getProduct,
-    getProductsCookie,
+
     getCart,
     postCartAddItem,
     postCartDeleteItem
