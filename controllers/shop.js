@@ -30,13 +30,9 @@ const getCart = (req, res) => {
         .getCart() //取得DB物件
         .then((cart) => {
             return cart.getProducts()
-                // .then((products) => {
-                //     // res.render('shop/cart', {
-                //     //     pageTitle: 'Cart',
-                //     //     products,
-                //     //     amount: cart.amount
-                //     // });
-                // })
+                .then((products) => {
+                    return res.send(products);
+                })
                 .catch((err) => {
                     console.log('getCart - cart.getProducts error: ', err);
                 })
@@ -44,12 +40,14 @@ const getCart = (req, res) => {
         .catch((err) => {
             console.log('getCart - user.getCart error', err);
         })
-}
+};
+
 const postCartAddItem = (req, res) => {
     //post過來的資料(productId)為req.body(用bodyParser解讀)
-    const { productId } = req.body;
+    const { productId, quantity } = req.body;
+    console.log({ productId, quantity });
     let userCart; //userCart = []
-    let newQuantity = 1;
+    // let newQuantity = quantity;
     req.user //已是user模型不是純資料，可以使用sequelize的方法，在app.js有用User.findByPk(req.session.user.id)，find by primary key，用id去找，取得該id的user model
         .getCart() //sequelize自動產生的方法
         .then((cart) => {
@@ -62,14 +60,14 @@ const postCartAddItem = (req, res) => {
             if (products.length > 0) { //如果有資料(陣列長度>0)，表示購物車已經有該product
                 product = products[0]; //抓陣列的第一筆(也只會有一筆)
                 const oldQuantity = product.cartItem.quantity;
-                newQuantity = oldQuantity + 1; //把原本數量+1
+                quantity = oldQuantity + quantity; //把原本數量+商品數量
                 return product;
             }
             return Product.findByPk(productId);
         })
         .then((product) => {
             return userCart.addProduct(product, {
-                through: { quantity: newQuantity }
+                through: { quantity: quantity }
             });
         })
         //處理總額加總
@@ -85,13 +83,15 @@ const postCartAddItem = (req, res) => {
             userCart.amount = amount;
             return userCart.save(); //儲存，寫入資料庫
         })
-        .then(() => {
-            res.redirect('/cart'); //導回cart頁面
-        })
+        // .then(() => {
+        //     res.redirect('/cart'); //導回cart頁面
+        // })
         .catch((err) => {
             console.log('postCartAddItem error: ', err);
         })
 };
+
+
 const postCartDeleteItem = (req, res, next) => {
     const { productId } = req.body; //指定id不然不知道要刪除哪一筆
     let userCart;
