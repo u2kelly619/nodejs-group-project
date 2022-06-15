@@ -31,6 +31,7 @@ const getCart = (req, res) => {
         .then((cart) => {
             return cart.getProducts()
                 .then((products) => {
+                    console.log(products);
                     return res.send(products);
                 })
                 .catch((err) => {

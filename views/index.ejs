@@ -1,0 +1,36 @@
+<%- include('./includes/header.ejs')  %>
+</head>
+<body>
+    <%- include('./includes/navbar.ejs')  %>
+    <div class="container-md">
+        <h1><%= pageTitle %></h1>
+        <!-- <img src="images/product.png" alt=""> -->
+        <div class="row">
+            <% if(products.length>0){ %>
+                <% products.forEach((product)=>{ %>
+                    <div class="col-12 col-md-6 col-lg-4 g-3">
+                        <div class="card h-100">
+                            <img src="<%= product.imageUrl %>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title"><%= product.title %></h5>
+                              <p class="card-text"><%= product.description %></p>
+                              <a href="#" class="btn btn-primary">Detail</a>
+                              <% if(isLogin) { %>                            
+                                <form action="/cart-add-item" method="POST">
+									<!-- 用hidden的input來傳送productId -->
+                                    <input type="hidden" name="productId" value="<%= product.id %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>" /> -->
+                                    <button class="btn btn-primary my-3">加入購物車</button>
+                                </form>
+                              <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <h2>尚無商品</h2>
+            <% } %>
+        </div>
+    </div>
+    
+    <%- include('./includes/footer.ejs')  %>

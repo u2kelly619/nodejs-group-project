@@ -1,0 +1,44 @@
+<%- include('../includes/header.ejs')  %>
+</head>
+<body>
+    <%- include('../includes/navbar.ejs')  %>
+    <h1 class="text-center my-5"><%= pageTitle %></h1>
+    <!-- 如果有errorMessage就顯示 -->
+    <% if (errorMessage) { %>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-8 col-md-4">
+                    <div class="alert alert-danger" role="alert">
+                      <%= errorMessage %>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <% } %>
+    <div class="form-login container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-8 col-md-4">
+                <main class="form-signin">
+                <form action="/login" method="POST">
+                    <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required value="kelly@email.com">
+                    <label for="floatingInput">信箱</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required value="12345678">
+                    <label for="floatingPassword">密碼</label>
+                    </div>
+                
+                    <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                    </div>
+                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">登入</button>
+                </form>
+                </main>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs')  %>
