@@ -110,6 +110,10 @@ const loginStatus = (req, res) => {
 
 }
 
+const userInfo = (req, res) => {
+    return res.send(req.user)
+}
+
 //建議用物件寫法
 module.exports = {
     // getLogin, //getLogin: getLogin
@@ -117,5 +121,6 @@ module.exports = {
     postLogin,
     postSignup,
     postLogout,
-    loginStatus
+    loginStatus,
+    userInfo
 }

@@ -13,6 +13,7 @@ const router = express.Router();
 // router.get('/login', authController.getLogin);
 // router.get('/signup', authController.getSignup)
 router.get('/loginStatus', authController.loginStatus)
+router.get('/user-info', authController.userInfo)
 
 //處理post請求
 router.post('/login', authController.postLogin);

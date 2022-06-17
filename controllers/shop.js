@@ -29,6 +29,7 @@ const getCart = (req, res) => {
     req.user
         .getCart() //取得DB物件
         .then((cart) => {
+            // return cartxlˇ
             return cart.getProducts()
                 .then((products) => {
                     console.log(products);
