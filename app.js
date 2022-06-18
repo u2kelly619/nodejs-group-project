@@ -156,6 +156,7 @@ User.hasOne(Cart);
 Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+Order
 
 //引入products產品資料來bulkCreate(products)倒入資料庫
 const products = require('./products');

@@ -1,4 +1,5 @@
 //引入product model
+const Order = require('../models/order');
 const Product = require('../models/product');
 // const getIndex = (req, res) => {
 //     // res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -49,12 +50,14 @@ const postCartAddItem = (req, res) => {
     const { productId, quantity } = req.body;
     console.log({ productId, quantity });
     let userCart; //userCart = []
-    // let newQuantity = quantity;
+    let newQuantity = quantity;
     req.user //已是user模型不是純資料，可以使用sequelize的方法，在app.js有用User.findByPk(req.session.user.id)，find by primary key，用id去找，取得該id的user model
         .getCart() //sequelize自動產生的方法
+        //user模型內有id，用id去cart表格裡面找資料，跟cart內的userId比對，並取出該id的cart
         .then((cart) => {
             userCart = cart;
             //檢查product是否已在cart(productId是從hidden的input裡傳過來的，把它當作篩選條件)
+            //cart去找cartItem，再從cartItem到products
             return cart.getProducts({ where: { id: productId } }); //sequelize自動產生的方法，因關聯是多對多，會在product加上s
         }) //取得陣列
         .then((products) => {
@@ -62,12 +65,12 @@ const postCartAddItem = (req, res) => {
             if (products.length > 0) { //如果有資料(陣列長度>0)，表示購物車已經有該product
                 product = products[0]; //抓陣列的第一筆(也只會有一筆)
                 const oldQuantity = product.cartItem.quantity;
-                quantity = oldQuantity + quantity; //把原本數量+商品數量
+                newQuantity = oldQuantity + quantity; //把原本數量+商品數量
                 return product;
             }
             return Product.findByPk(productId);
         })
-        .then((product) => {
+        .then((product) => { //
             return userCart.addProduct(product, {
                 through: { quantity: quantity }
             });
@@ -127,6 +130,14 @@ const postCartDeleteItem = (req, res, next) => {
         })
         .catch((err) => console.log(err));
 };
+
+const addOrder = (req, res)=>{
+    const {} = req.body
+    Order.create({
+
+    })
+}
+
 //建議用物件寫法
 module.exports = {
     getIndex,
@@ -134,5 +145,6 @@ module.exports = {
 
     getCart,
     postCartAddItem,
-    postCartDeleteItem
+    postCartDeleteItem,
+    addOrder
 }
